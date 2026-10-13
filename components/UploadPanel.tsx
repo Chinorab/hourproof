@@ -2,31 +2,8 @@
 
 import { useRef, useState } from "react";
 import { ImageUp, LoaderCircle } from "lucide-react";
-import { shrinkImage } from "@/lib/image";
-import { todayISO } from "@/lib/dates";
-import type { ExtractedEntry, ExtractResponse } from "@/lib/types";
-
-export type ReadError = "unreadable" | "too_large" | "unavailable";
-
-export async function readScreenshot(file: Blob, signal?: AbortSignal): Promise<ExtractedEntry[] | ReadError> {
-  const { base64, mediaType } = await shrinkImage(file);
-  try {
-    const res = await fetch("/api/extract", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ image: base64, mediaType, today: todayISO() }),
-      signal,
-    });
-    const data = (await res.json()) as ExtractResponse;
-    if (data.ok) return data.entries;
-    if (data.error === "too_large") return "too_large";
-    if (data.error === "unreadable" || data.error === "bad_request") return "unreadable";
-    return "unavailable";
-  } catch (err) {
-    if (signal?.aborted) throw err;
-    return "unavailable";
-  }
-}
+import { readScreenshot, type ReadError } from "@/lib/read";
+import type { ExtractedEntry } from "@/lib/types";
 
 type Props = {
   onRead: (entries: ExtractedEntry[]) => void;

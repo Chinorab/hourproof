@@ -19,7 +19,7 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
   Learner check: Run `npm run dev`, open http://localhost:3000 in your browser's phone view, upload one of the sample screenshots from `public/samples`, check what was read, add it, and reload the page.
   Commit: `Read earnings screenshots with Claude and save entries`
 
-- [ ] **2. The month answer: one big number, the gap, days left**
+- [x] **2. The month answer: one big number, the gap, days left**
   Becomes usable: This Month shows the dominant test (whichever is closer to its line) as the big number with a progress bar and gap, the other test smaller, days left, prorated weeks tagged, earnings after expenses, the honesty note with the Medicaid.gov link, and the household income note. Entries can be added manually, edited and removed; duplicates warn; the previous month can be viewed. The calm visual system (Public Sans, palette, 8 px radius buttons, lucide icons) is applied.
   Why now: Turns read numbers into the answer the person came for; the month math is the second place correctness matters and is cheap to unit test now that real entries exist.
   PRD ref: `prd.md > Month totals and progress`, `prd.md > Weeks that span two months`, `prd.md > Entries list`, `prd.md > Add earnings manually`, `prd.md > Honesty note`, `prd.md > Look and Feel`

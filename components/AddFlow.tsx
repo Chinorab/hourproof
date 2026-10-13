@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, TriangleAlert } from "lucide-react";
-import { UploadPanel, type ReadError } from "@/components/UploadPanel";
+import { UploadPanel } from "@/components/UploadPanel";
+import type { ReadError } from "@/lib/read";
 import {
   ReviewCard,
   draftFromEntry,

@@ -97,6 +97,11 @@ export function useEntries(): Entry[] | null {
 
 const noop = () => () => {};
 
+/** False when this browser blocks saving (private mode, blocked site data). */
+export function useStorageAvailable(): boolean {
+  return useSyncExternalStore(noop, storageAvailable, () => true);
+}
+
 /** The device's own date as YYYY-MM-DD, or null while rendering on the server. */
 export function useToday(): string | null {
   return useSyncExternalStore(noop, todayISO, () => null);
