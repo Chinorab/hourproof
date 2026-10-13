@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HourProof App Map</title>
+<style>
+  :root {
+    --bg: #f6f6f3; --surface: #ffffff; --line: #e2e3df; --ink: #1b1e21; --muted: #5a6067;
+    --accent: #0e6655; --accent-soft: #e3efec; --code: #f0f1ee;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; letter-spacing: -0.01em; margin: 0 0 4px; }
+  h2 { font-size: 19px; margin: 36px 0 10px; }
+  h3 { font-size: 16px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  code { font: 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code); padding: 1px 5px; border-radius: 4px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .pieces { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .pieces { grid-template-columns: 1fr 1fr; } }
+  ol.route { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; counter-reset: stop; }
+  ol.route > li { counter-increment: stop; position: relative; padding-left: 44px; }
+  ol.route > li::before { content: counter(stop); position: absolute; left: 0; top: 16px; width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 14px; }
+  ul.tight { margin: 8px 0 0; padding-left: 18px; }
+  ul.tight li { margin: 4px 0; }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a { color: var(--accent); }
+  .diagram { overflow-x: auto; }
+  svg { width: 100%; min-width: 600px; height: auto; display: block; }
+  .practice { background: var(--accent-soft); border: 1px solid #c7ddd8; border-radius: 12px; padding: 16px; }
+  pre { background: var(--code); border-radius: 8px; padding: 12px; overflow-x: auto; font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 8px 0 0; }
+  footer { margin-top: 40px; font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>HourProof app map</h1>
+  <p class="muted">A take home guide to where things live in this proof of concept. Snapshot of commit <code>13c05d0</code>; the code can drift after this.</p>
+
+  <h2>What the app does</h2>
+  <p>A gig worker uploads a weekly earnings screenshot. Claude reads the app name, dates, active hours and earnings. The person checks the values, and the month's totals are compared with the federal Medicaid work requirement: 80 active hours, or $580 earned after expenses. The test closer to its line becomes the big number. A one page summary can be printed or saved as PDF.</p>
+
+  <div class="pieces">
+    <div class="card">
+      <h3>In the browser</h3>
+      <p class="muted">All screens, the saved entries (<code>localStorage</code>), and all the math: proration, totals, gaps, days left.</p>
+    </div>
+    <div class="card">
+      <h3>One server route</h3>
+      <p class="muted"><code>/api/extract</code> sends the shrunk screenshot to the Claude API with a strict schema and returns the fields. It keeps the API key secret and stores nothing.</p>
+    </div>
+  </div>
+
+  <h2>One action, end to end: a screenshot moves the big number</h2>
+  <div class="diagram" tabindex="0" role="region" aria-label="Diagram, scroll sideways on small screens">
+  <svg viewBox="0 0 720 210" role="img" aria-labelledby="flow-title flow-desc">
+    <title id="flow-title">Screenshot to big number</title>
+    <desc id="flow-desc">The phone shrinks the screenshot and posts it to the extract route, which calls Claude and returns fields. The person reviews them, the entry is saved on the device, and the month math updates the big number.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#5a6067"/>
+      </marker>
+    </defs>
+    <g font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">
+      <rect x="10" y="20" width="200" height="70" rx="10" fill="#ffffff" stroke="#e2e3df"/>
+      <text x="110" y="48" text-anchor="middle" font-weight="600" fill="#1b1e21">1. Read</text>
+      <text x="110" y="68" text-anchor="middle" fill="#5a6067">UploadPanel, read.ts</text>
+
+      <rect x="260" y="20" width="200" height="70" rx="10" fill="#ffffff" stroke="#e2e3df"/>
+      <text x="360" y="48" text-anchor="middle" font-weight="600" fill="#1b1e21">2. Extract</text>
+      <text x="360" y="68" text-anchor="middle" fill="#5a6067">route.ts, extract.ts</text>
+
+      <rect x="510" y="20" width="200" height="70" rx="10" fill="#e3efec" stroke="#0e6655"/>
+      <text x="610" y="48" text-anchor="middle" font-weight="600" fill="#1b1e21">Claude API</text>
+      <text x="610" y="68" text-anchor="middle" fill="#5a6067">Opus 5.5, Zod schema</text>
+
+      <rect x="260" y="130" width="200" height="70" rx="10" fill="#ffffff" stroke="#e2e3df"/>
+      <text x="360" y="158" text-anchor="middle" font-weight="600" fill="#1b1e21">3. Count</text>
+      <text x="360" y="178" text-anchor="middle" fill="#5a6067">AddFlow, storage, month.ts</text>
+
+      <rect x="510" y="130" width="200" height="70" rx="10" fill="#0e6655"/>
+      <text x="610" y="158" text-anchor="middle" font-weight="600" fill="#ffffff">Big number moves</text>
+      <text x="610" y="178" text-anchor="middle" fill="#e3efec">DominantProgress</text>
+
+      <line x1="210" y1="55" x2="256" y2="55" stroke="#5a6067" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="460" y1="48" x2="506" y2="48" stroke="#5a6067" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="506" y1="66" x2="460" y2="66" stroke="#5a6067" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M110 90 V165 H256" fill="none" stroke="#5a6067" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="118" y="125" fill="#5a6067">review card, then Add to month</text>
+      <line x1="460" y1="165" x2="506" y2="165" stroke="#5a6067" stroke-width="1.5" marker-end="url(#arrow)"/>
+    </g>
+  </svg>
+  </div>
+
+  <h2>Reference route (3 stops)</h2>
+  <p class="muted">A route to follow in your editor. Search for the names in <code>code</code> to land on the right spot.</p>
+  <ol class="route">
+    <li class="card">
+      <h3>Read: the phone prepares the screenshot</h3>
+      <p><code>components/UploadPanel.tsx</code>, function <code>handleFile</code>, calls <code>readScreenshot</code> in <code>lib/read.ts</code>. That shrinks the image to 2000 px JPEG (<code>lib/image.ts</code>, <code>shrinkImage</code>) and posts it to <code>/api/extract</code> with a 60 second limit. The reading state and Cancel live here too.</p>
+    </li>
+    <li class="card">
+      <h3>Extract: Claude reads it into a fixed shape</h3>
+      <p><code>app/api/extract/route.ts</code>, <code>POST</code>, checks type and size, then calls <code>extractEarnings</code> in <code>lib/extract.ts</code>. <code>ExtractionSchema</code> makes every field nullable so a value Claude cannot see comes back as <code>null</code>, not a guess. <code>instructions()</code> holds the reading rules: active time over online time, infer a missing year, app name only.</p>
+    </li>
+    <li class="card">
+      <h3>Count: review, save, compare with the thresholds</h3>
+      <p><code>components/AddFlow.tsx</code>, <code>submit</code>, checks for a duplicate week and saves through <code>saveEntries</code> in <code>lib/storage.ts</code>. <code>app/page.tsx</code> rerenders: <code>monthTotals</code>, <code>dominantTest</code> and <code>testStatus</code> in <code>lib/month.ts</code> compute the month, and <code>DominantProgress</code> in <code>components/TestProgress.tsx</code> shows the big number.</p>
+    </li>
+  </ol>
+
+  <h2>To change this, start here</h2>
+  <details>
+    <summary>The 80 hour or $580 thresholds</summary>
+    <p><code>lib/thresholds.ts</code>. The only place the numbers live, with their CMS sources. The minimum wage figure drives the income threshold.</p>
+  </details>
+  <details>
+    <summary>What Claude reads from a screenshot</summary>
+    <p><code>lib/extract.ts</code>: add a field to <code>ExtractionSchema</code>, describe it in <code>instructions()</code>, then map it in <code>extractEarnings</code> and <code>draftFromExtracted</code> (<code>components/ReviewCard.tsx</code>). Re-run the sample images to check.</p>
+  </details>
+  <details>
+    <summary>How a week across two months is counted</summary>
+    <p><code>lib/month.ts</code>, <code>overlapDays</code> and <code>monthTotals</code>. Covered by <code>lib/month.test.ts</code>; run <code>npm test</code> after a change.</p>
+  </details>
+  <details>
+    <summary>Wording on the main screen and the summary</summary>
+    <p><code>app/page.tsx</code>, <code>components/TestProgress.tsx</code> (gap and met labels), <code>components/HonestyNote.tsx</code>, <code>components/MonthlySummary.tsx</code>. Keep the rule: never an eligibility claim.</p>
+  </details>
+  <details>
+    <summary>The sample screenshots</summary>
+    <p>HTML in <code>scripts/make-samples/</code>, rendered with <code>npm run samples</code> into <code>public/samples/</code>. <code>lib/sample.ts</code> reads them through the real route and moves their dates to a recent week.</p>
+  </details>
+
+  <h2>A practice to reuse</h2>
+  <div class="practice">
+    <p><strong>Ask the model for an exact shape, let "unknown" be a valid answer, and check it against varied fixtures.</strong></p>
+    <p>In this project the extraction schema (<code>lib/extract.ts</code>, <code>ExtractionSchema</code>) makes every field nullable, and three sample screenshots with deliberately different layouts plus one non earnings image live in <code>public/samples/</code>. Running them through <code>/api/extract</code> showed the reading was right on hours, dates and totals, and caught one miss: the app name came back with the screen title ("Sample Courier Earnings"). One added line in <code>instructions()</code> fixed it, confirmed by re-running the same images.</p>
+    <p>On another project that reads documents or images, write the schema first, include a fixture that should be rejected, and re-run the same fixtures after every prompt change.</p>
+  </div>
+
+  <h2>Run it again</h2>
+<pre>npm install
+cp .env.example .env.local   # set ANTHROPIC_API_KEY
+npm run dev                  # http://localhost:3000
+npm test                     # month math tests</pre>
+
+  <footer>
+    <p>Generated from the HourProof source at commit 13c05d0. Planning documents: <code>devpost/scope.md</code>, <code>devpost/prd.md</code>, <code>devpost/spec.md</code>, <code>devpost/checklist.md</code>.</p>
+  </footer>
+</main>
+</body>
+</html>

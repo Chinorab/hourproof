@@ -56,21 +56,21 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
 
 ## Final Review
 
-- [ ] Returning to Add earnings after a manual entry reopens the manual form instead of the upload or manual choice — fixed in `components/AddFlow.tsx` (`reset`, `goHome` on every exit; Next keeps the page state alive). Verified with playwright-cli: after manual add, back link, Cancel and edit, /add shows the choice. Waiting for learner retry.
+- [x] Returning to Add earnings after a manual entry reopens the manual form instead of the upload or manual choice — fixed in `components/AddFlow.tsx` (`reset`, `goHome` on every exit; Next keeps the page state alive). Verified with playwright-cli: after manual add, back link, Cancel and edit, /add shows the choice. Learner retried: "ça marche".
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship ("c'est prêt")
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence:
-Route and stops:
-Edit outcome:
-Reflection:
-Activity mode:
+Activity and evidence: Prior practice connected to the learning goal (Claude vision API): the slice 1 extraction check on varied sample screenshots and the `instructions()` fix in `lib/extract.ts` after the renamed samples were read with their screen titles, confirmed by re-running the same images. The learner was pointed to `ExtractionSchema` and the fix and replied "ça marche, continue"; whether they opened the file is not confirmed.
+Route and stops: Reference only (not toured): `components/UploadPanel.tsx` handleFile / `lib/read.ts` readScreenshot; `app/api/extract/route.ts` POST / `lib/extract.ts` extractEarnings; `components/AddFlow.tsx` submit / `lib/storage.ts` saveEntries / `lib/month.ts` monthTotals / `components/TestProgress.tsx` DominantProgress.
+Edit outcome: Not applicable (optional real screenshot test offered, outcome not reported).
+Reflection: Offered, not answered.
+Activity mode: Focused alternative, prior practice connected, with the app map; no live code walkthrough.
 
 ## Revisions
 
