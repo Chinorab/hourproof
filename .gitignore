@@ -1,0 +1,43 @@
+# Personal learning context (Devpost Learn)
+/devpost/learner-profile.md
+
+# Local credentials (keep the secret-free example)
+.env
+.env.*
+!.env.example
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/test-results/
+/.playwright-cli/
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Local course material and session notes (not part of the app)
+/.claude/skills/
+/skills-lock.json
+/PROGRESS.md

@@ -1,0 +1,5 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { width: 390px; min-height: 844px; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+.sample { position: fixed; top: 0; left: 0; right: 0; background: #FFD84D; color: #3A2E00; font: 700 12px/26px Arial, sans-serif; text-align: center; letter-spacing: .12em; z-index: 9; }
+.status { height: 26px; }
+.wm { position: fixed; bottom: 18px; left: 0; right: 0; text-align: center; font: 700 11px Arial; color: rgba(0,0,0,.35); letter-spacing: .2em; }
