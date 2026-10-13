@@ -135,11 +135,11 @@ PRD ref: `prd.md > Privacy`, `prd.md > States and Boundaries`.
 PRD ref: `prd.md > Sample data`.
 
 ### Monthly summary page
-`app/summary/page.tsx` (client component, `?month=YYYY-MM`). Title, month, generated date, entries table (platform, dates, active hours counted, earnings, expenses, earnings after expenses, prorated marker), totals, both thresholds with the numbers (reached or gap), honesty note with the Medicaid.gov link, "Sample data" label when applicable. **Print or save as PDF** calls `window.print()`. Print styles in `app/summary/print.css`: `@page { size: letter; margin: 0.6in }`, hide navigation and buttons, black text on white, fits one page for a typical month.
+`app/summary/page.tsx` with `components/MonthlySummary.tsx` (client component, `?month=YYYY-MM`). Title, month, generated date, entries table (platform, dates, active hours counted, earnings, expenses, earnings after expenses, prorated marker), totals, both thresholds with the numbers (reached or gap), honesty note with the Medicaid.gov link, "Sample data" label when applicable. **Print or save as PDF** calls `window.print()`. Print styles: `@page { size: letter; margin: 0.6in }` in `app/globals.css` and Tailwind `print:` variants that hide navigation and buttons and show the Earnings and Expenses columns; fits one page for a typical month.
 PRD ref: `prd.md > Monthly summary`.
 
 ### Privacy page
-`app/privacy/page.tsx` (static). A few plain sentences: screenshots are sent to Claude on Amazon Bedrock to be read and are not stored by HourProof; entries (numbers only) are kept in this browser on this device; there are no accounts; **Clear my data** removes them; link to the Amazon Bedrock data privacy page (exact URL confirmed at build).
+`app/privacy/page.tsx` (static). A few plain sentences: screenshots are sent to Anthropic's Claude API to be read and are not stored by HourProof; entries (numbers only) are kept in this browser on this device; there are no accounts; **Clear my data** removes them; links to Anthropic's commercial terms and privacy policy (https://www.anthropic.com/legal/commercial-terms, https://www.anthropic.com/legal/privacy).
 PRD ref: `prd.md > Privacy`.
 
 ### Honesty note
@@ -178,12 +178,11 @@ hourproof/
 ├── app/
 │   ├── layout.tsx            # font, header, footer, single column shell
 │   ├── globals.css           # Tailwind + color tokens
-│   ├── icon.svg              # favicon
+│   ├── icon.svg              # favicon (H monogram in the accent color)
 │   ├── apple-icon.png        # home screen icon
 │   ├── page.tsx              # This Month
 │   ├── add/page.tsx          # Add earnings: upload, review, manual, edit
 │   ├── summary/page.tsx      # Monthly summary
-│   ├── summary/print.css     # letter size print styles
 │   ├── privacy/page.tsx      # Privacy page
 │   └── api/extract/route.ts  # the only server route: screenshot -> Claude -> JSON
 ├── components/
@@ -191,6 +190,8 @@ hourproof/
 │   ├── SecondaryTest.tsx
 │   ├── EntriesList.tsx
 │   ├── UploadPanel.tsx
+│   ├── AddFlow.tsx           # add, review, manual entry, edit, duplicate warning
+│   ├── MonthlySummary.tsx
 │   ├── ReviewCard.tsx
 │   ├── HonestyNote.tsx
 │   └── SampleBanner.tsx
@@ -200,6 +201,8 @@ hourproof/
 │   ├── month.test.ts         # Vitest unit tests
 │   ├── storage.ts            # localStorage with safe fallback
 │   ├── image.ts              # client side resize to JPEG
+│   ├── read.ts               # client call to /api/extract with timeout
+│   ├── format.ts             # money and hours formatting
 │   ├── extract.ts            # server side Claude call + Zod schema
 │   └── sample.ts             # loads sample screenshots
 ├── public/samples/           # labeled sample screenshots (fictional platforms)

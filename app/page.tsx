@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FlaskConical, LoaderCircle, Plus, TriangleAlert } from "lucide-react";
+import { FileText, FlaskConical, LoaderCircle, Plus, TriangleAlert } from "lucide-react";
 import { DominantProgress, SecondaryTest } from "@/components/TestProgress";
 import { EntriesList } from "@/components/EntriesList";
 import { HonestyNote, HOUSEHOLD_NOTE } from "@/components/HonestyNote";
@@ -101,6 +101,14 @@ export default function ThisMonthPage() {
         >
           <Plus className="size-5" strokeWidth={1.75} aria-hidden />
           Add earnings
+        </Link>
+
+        <Link
+          href={`/summary?month=${month}`}
+          className="flex h-12 items-center justify-center gap-2 rounded-lg border border-line bg-surface px-4 text-[15px] font-medium transition-colors hover:bg-bg"
+        >
+          <FileText className="size-5" strokeWidth={1.75} aria-hidden />
+          Monthly summary
         </Link>
 
         {!hasSample && (

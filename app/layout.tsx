@@ -27,14 +27,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <div className="mx-auto flex min-h-[100dvh] w-full max-w-[480px] flex-col px-4">
-          <header className="flex items-center justify-between py-4">
+          <header className="flex items-center justify-between py-4 print:hidden">
             <Link href="/" translate="no" className="text-base font-semibold tracking-tight text-ink">
               HourProof
             </Link>
           </header>
-          <main id="main" className="flex-1 pb-10">{children}</main>
-          <footer className="border-t border-line py-5 text-sm text-muted">
+          <main id="main" className="flex-1 pb-10 print:pb-0">{children}</main>
+          <footer className="flex flex-wrap items-center justify-between gap-2 border-t border-line py-5 text-sm text-muted print:hidden">
             <p>Not a government website. Your numbers stay on this device.</p>
+            <Link href="/privacy" className="font-medium underline underline-offset-2 hover:text-ink">
+              Privacy
+            </Link>
           </footer>
         </div>
       </body>

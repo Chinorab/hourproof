@@ -5,7 +5,7 @@ import { monthOf, overlapDays } from "./month";
 import type { Entry, ExtractedEntry } from "./types";
 
 // Sample screenshots of fictional gig apps, each marked SAMPLE in the image.
-export const SAMPLE_FILES = ["parcelfox", "loopride", "tidyhands"] as const;
+export const SAMPLE_FILES = ["sample-courier", "sample-rides", "sample-cleaning"] as const;
 
 const DAY = 86_400_000;
 const toDay = (iso: string) => Date.parse(`${iso}T00:00:00Z`) / DAY;

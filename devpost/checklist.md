@@ -29,7 +29,7 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
   Learner check: Add two or three weeks by hand (one crossing into last month, one with expenses), watch the big number and gap change, edit one, remove one, and switch to the previous month.
   Commit: `Show month progress against federal thresholds`
 
-- [ ] **3. Sample data and the awkward cases**
+- [x] **3. Sample data and the awkward cases**
   Becomes usable: From an empty month, Try with sample data reads the three labeled sample screenshots through the real extraction path and fills the month, with a visible Sample data banner and Clear sample data. Unreadable, partly read, slow or unavailable reading, oversized images and blocked storage each show the planned plain message and a way forward. Clear my data empties the device.
   Why now: Makes the demo path work in one tap and hardens the failure modes before the summary depends on clean data.
   PRD ref: `prd.md > Sample data`, `prd.md > States and Boundaries`, `prd.md > Privacy`
@@ -76,3 +76,6 @@ Activity mode:
 - Sample screenshots are fixed images dated Sep 28 to Oct 4, 2026 — static PNGs can't follow the calendar, so slice 3 shifts sample entries by whole weeks after reading to land in the most recent full week. Reading stays real.
 - Added the first party Claude API back as the primary provider when `ANTHROPIC_API_KEY` is set, keeping Bedrock as the alternative — the learner's AWS account returned AccessDeniedException for Claude Opus 5.5 on Bedrock.
 - The learner chose the first party Claude API (Claude Opus 5.5, prepaid credits, auto reload off) as the active provider — their AWS account only has Claude Haiku 4.5 on Bedrock; an AWS support case for Opus access is optional. Bedrock stays supported through `.env.local`.
+- Renamed the sample platforms to Sample Courier, Sample Rides and Sample Cleaning — the brand check found real companies close to Loopride (Loop Rideshare) and Tidyhands (Tidy Hands Cleaners), and Parcelfox echoes a game brand; the learner's rule bans real brand names.
+- Print styles use `@page` in `globals.css` plus Tailwind `print:` variants instead of a separate `app/summary/print.css` — same one page letter output with less CSS.
+- The extraction prompt now asks for the app name only (no screen titles like "Earnings" or "Driver") — the renamed samples were read with their headings.

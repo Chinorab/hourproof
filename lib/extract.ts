@@ -44,6 +44,7 @@ Return what the image shows, using the schema:
 - Convert durations like "14h 35m" to decimal hours (14.58).
 - earnings_total is the total for the period including tips and incentives, before any expenses.
 - Dates are YYYY-MM-DD. If the year is not shown, pick the year that puts the period closest to, and not after, today's date. If only a start date is shown ("Week of ..."), the period is 7 days, so week_end is 6 days later.
+- platform_name is the name of the app or company only. Leave out screen titles and generic words such as "Earnings", "Driver", "Pro" or "Weekly summary".
 - One entry per platform and period shown.
 - If the image is not a gig work earnings summary, set is_earnings_summary to false and return an empty entries array.`;
 }

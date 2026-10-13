@@ -6,7 +6,7 @@ import path from "node:path";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const out = path.resolve(here, "../../public/samples");
-const pages = ["parcelfox", "loopride", "tidyhands", "not-earnings"];
+const pages = ["sample-courier", "sample-rides", "sample-cleaning", "not-earnings"];
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
