@@ -1,5 +1,6 @@
 "use client";
 
+import { newId } from "@/lib/id";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -54,7 +55,7 @@ export function AddFlow() {
 
   function save(draft: Draft, source: Entry["source"]) {
     addEntry({
-      id: crypto.randomUUID(),
+      id: newId(),
       ...draftToValues(draft),
       source,
       sample: false,

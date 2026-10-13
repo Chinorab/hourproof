@@ -17,7 +17,7 @@ import {
   useStorageAvailable,
   useToday,
 } from "@/lib/storage";
-import { readSamples } from "@/lib/sample";
+import { readSamples, withoutDuplicates } from "@/lib/sample";
 import { plural } from "@/lib/format";
 import { daysLeft, dominantTest, monthName, monthOf, monthTotals, previousMonth, testStatus } from "@/lib/month";
 
@@ -48,7 +48,8 @@ export default function ThisMonthPage() {
       setSampleState("failed");
       return;
     }
-    saveEntries([...loadEntries().filter((e) => !e.sample), ...result]);
+    const kept = loadEntries().filter((e) => !e.sample);
+    saveEntries([...kept, ...withoutDuplicates(result, kept)]);
     setView("current");
     setSampleState("idle");
   }

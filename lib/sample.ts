@@ -1,5 +1,6 @@
 "use client";
 
+import { newId } from "@/lib/id";
 import { readScreenshot } from "./read";
 import { monthOf, overlapDays } from "./month";
 import type { Entry, ExtractedEntry } from "./types";
@@ -32,7 +33,7 @@ function toEntry(e: ExtractedEntry, today: string): Entry | null {
   }
   const dates = shiftToRecentWeek({ weekStart: e.week_start, weekEnd: e.week_end }, today);
   return {
-    id: crypto.randomUUID(),
+    id: newId(),
     platform: e.platform_name,
     ...dates,
     activeHours: e.active_hours,
@@ -42,6 +43,16 @@ function toEntry(e: ExtractedEntry, today: string): Entry | null {
     sample: true,
     createdAt: new Date().toISOString(),
   };
+}
+
+const sameWeek = (a: Entry, b: Entry) =>
+  a.platform.trim().toLowerCase() === b.platform.trim().toLowerCase() &&
+  a.weekStart === b.weekStart &&
+  a.weekEnd === b.weekEnd;
+
+/** Drops sample entries for a week the person already added, so nothing counts twice. */
+export function withoutDuplicates(samples: Entry[], existing: Entry[]): Entry[] {
+  return samples.filter((s) => !existing.some((e) => sameWeek(s, e)));
 }
 
 /** Reads the three sample screenshots through the real extraction route. */

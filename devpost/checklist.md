@@ -81,3 +81,5 @@ Activity mode: Focused alternative, prior practice connected, with the app map; 
 - Renamed the sample platforms to Sample Courier, Sample Rides and Sample Cleaning — the brand check found real companies close to Loopride (Loop Rideshare) and Tidyhands (Tidy Hands Cleaners), and Parcelfox echoes a game brand; the learner's rule bans real brand names.
 - Print styles use `@page` in `globals.css` plus Tailwind `print:` variants instead of a separate `app/summary/print.css` — same one page letter output with less CSS.
 - The extraction prompt now asks for the app name only (no screen titles like "Earnings" or "Driver") — the renamed samples were read with their headings.
+- 6-ship fix: entry ids fall back to `crypto.getRandomValues` (`lib/id.ts`) — `crypto.randomUUID` is missing outside secure contexts, which silently blocked Add to month in an embedded frame and would on plain HTTP.
+- 6-ship fix: Try with sample data skips a sample week the person already added (`withoutDuplicates` in `lib/sample.ts`) — recording the demo showed Sample Rides counted twice and a false "$580 reached".
