@@ -61,6 +61,7 @@ Verify early in the build: the Bedrock model ID for Claude Opus 5.5 in the chose
 - **Tests:** `npm test` (Vitest).
 - **Deployment (learner's choice):** Vercel, connected to the public GitHub repo; set the same AWS variables in the Vercel project's environment variables; every push to `main` deploys. Deployment is optional for the hackathon and does not replace the demo video or the public repo.
 - **Demo recording (`6-ship`):** on the deployed URL (or localhost) in a phone-sized viewport: empty month → **Try with sample data** → screenshots read → review → big number moves → monthly summary → save as PDF. Sample data only; no real platform names on screen.
+- **Shared links (6-ship):** public repository https://github.com/Chinorab/hourproof ; production deployment https://hourproof-eight.vercel.app (Vercel project `hourproof`, team `anas02-projects`, deploys on every push to `main`). Demo video: silent screen recording made with `node scripts/demo/record.mjs` (output in the ignored `recordings/` folder); upload link to be added by the learner.
 - **Cost guard:** an AWS Budgets alert on the account, and IAM permissions limited to invoking the Claude model.
 
 ## Look and Feel
