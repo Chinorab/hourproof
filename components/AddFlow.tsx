@@ -72,14 +72,30 @@ export function AddFlow() {
     after();
   }
 
+  // Next keeps this page's state alive after leaving it, so reset to the upload or
+  // manual choice on every exit; otherwise the next visit reopens the last form.
+  function reset() {
+    setStep({ kind: "choose" });
+    setPending(null);
+  }
+
+  function goHome() {
+    reset();
+    router.push("/");
+  }
+
   function next(queue: ExtractedEntry[], index: number) {
     if (index + 1 < queue.length) setStep({ kind: "review", queue, index: index + 1 });
-    else router.push("/");
+    else goHome();
   }
 
   return (
     <div>
-      <Link href="/" className="-ml-1 inline-flex h-10 items-center gap-1 text-sm font-medium text-muted hover:text-ink">
+      <Link
+        href="/"
+        onClick={reset}
+        className="-ml-1 inline-flex h-10 items-center gap-1 text-sm font-medium text-muted hover:text-ink"
+      >
         <ChevronLeft className="size-4" strokeWidth={1.75} aria-hidden />
         This month
       </Link>
@@ -160,7 +176,7 @@ export function AddFlow() {
             title="Enter a week"
             note="Use the totals from your app for one week. Active time is time on trips, deliveries or jobs."
             submitLabel="Add to month"
-            onSubmit={(draft) => submit(draft, "manual", () => router.push("/"))}
+            onSubmit={(draft) => submit(draft, "manual", goHome)}
             onCancel={() => setStep({ kind: "choose" })}
           />
         )}
@@ -168,7 +184,7 @@ export function AddFlow() {
         {editId && entries && !editing && (
           <p className="text-sm text-muted">
             This entry is no longer saved on this device.{" "}
-            <Link href="/" className="font-medium text-accent underline underline-offset-2">
+            <Link href="/" onClick={reset} className="font-medium text-accent underline underline-offset-2">
               Back to this month
             </Link>
           </p>
@@ -182,9 +198,9 @@ export function AddFlow() {
             submitLabel="Save changes"
             onSubmit={(draft) => {
               updateEntry({ ...editing, ...draftToValues(draft) });
-              router.push("/");
+              goHome();
             }}
-            onCancel={() => router.push("/")}
+            onCancel={goHome}
           />
         )}
 

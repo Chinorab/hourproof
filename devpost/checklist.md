@@ -39,7 +39,7 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
   Learner check: Start from an empty month, tap Try with sample data, then try the non-earnings sample image, then clear everything.
   Commit: `Add sample data and handle reading failures`
 
-- [ ] **4. The monthly summary, privacy page and favicon**
+- [x] **4. The monthly summary, privacy page and favicon**
   Becomes usable: Monthly summary shows the month's entries table, totals, both thresholds as numbers, the honesty note and a Sample data label when relevant, and Print or save as PDF produces a clean single letter page. A short Privacy page explains what is sent, what is kept and how to clear it. The app has its favicon and home screen icon, and the README explains what it is, how to run it, privacy and sources.
   Why now: Closes the core journey with the proof the person keeps, and completes the trust pieces needed before anything goes live.
   PRD ref: `prd.md > Monthly summary`, `prd.md > Privacy`, `prd.md > The Core Journey` (steps 6 and 7)
@@ -52,9 +52,11 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after slice 1: the learner uploads a sample screenshot on a phone sized view and reacts to the reading and review step, while there is still room to change extraction or review behavior. Learner tried it: "ça marche", no changes requested.
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Final kick-the-tires exploration and feedback completed (learner explored the full app incl. the non-earnings image: "ça marche")
 
 ## Final Review
+
+- [ ] Returning to Add earnings after a manual entry reopens the manual form instead of the upload or manual choice — fixed in `components/AddFlow.tsx` (`reset`, `goHome` on every exit; Next keeps the page state alive). Verified with playwright-cli: after manual add, back link, Cancel and edit, /add shows the choice. Waiting for learner retry.
 
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
