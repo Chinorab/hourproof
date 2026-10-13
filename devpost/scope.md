@@ -3,7 +3,7 @@ doc: scope
 status: approved
 ---
 
-# HourProof (working name)
+# HourProof
 
 A phone-first tool that turns a gig worker's scattered earnings screenshots into one clear answer: where this month stands against the federal Medicaid work requirement, plus a one-page summary they can keep as proof.
 

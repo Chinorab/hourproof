@@ -3,7 +3,7 @@ doc: spec
 status: approved
 ---
 
-# HourProof (working name) — Technical Spec
+# HourProof — Technical Spec
 
 ## How This Works, In Plain Language
 
@@ -297,5 +297,5 @@ What clarifies it: structured outputs with a Zod schema (Claude must answer in t
 Agreed investigation during the build: run the three sample screenshots (different layouts, one showing both online and active time, one without a year) plus the non-earnings image through `/api/extract`. Evidence: correct fields, `null` where data is missing, active time chosen over online time, and the non-earnings image rejected.
 
 ### Open issues
-- **Project name** — HourProof remains the working name; can change before `6-ship`.
+- **Project name** — resolved in `6-ship`: HourProof.
 - **Verify at build:** the Bedrock model ID for Claude Opus 5.5 in the chosen region; Vercel request body limit; AWS Bedrock data privacy URL for the Privacy page; fictional sample platform names are not real brands.

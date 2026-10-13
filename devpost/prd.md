@@ -3,7 +3,7 @@ doc: prd
 status: approved
 ---
 
-# HourProof (working name) — Product Requirements
+# HourProof — Product Requirements
 
 A phone-first web app for gig and seasonal workers on Medicaid in expansion states: add this month's earnings from screenshots or by hand, see where the month stands against the federal 80-hour and $580 tests, and keep a one-page summary as proof.
 Source: `scope.md > The Unique Kernel`, `scope.md > Who It's For`.
@@ -168,5 +168,5 @@ Source: `scope.md > Explicitly Cut`.
 
 - **Earnings definition** — resolved in `4-spec`: earnings (tips included) minus optional business expenses, with a household income (MAGI) note.
 - **Exact thresholds** — resolved in `4-spec`: 80 hours and $580 (80 x $7.25, federal minimum wage), cited in `spec.md`.
-- **Project name** — HourProof is a working name. Can wait until `6-ship`.
+- **Project name** — resolved in `6-ship`: HourProof.
 - **Visual details** — confirmed as written under `Look and Feel`; exact accent color and typeface chosen in `4-spec`.
