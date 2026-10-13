@@ -1,63 +1,92 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { loadEntries } from "@/lib/storage";
-import { rangeLabel } from "@/lib/dates";
-import type { Entry } from "@/lib/types";
+import { DominantProgress, SecondaryTest } from "@/components/TestProgress";
+import { EntriesList } from "@/components/EntriesList";
+import { HonestyNote, HOUSEHOLD_NOTE } from "@/components/HonestyNote";
+import { removeEntry, useEntries, useToday } from "@/lib/storage";
+import { plural } from "@/lib/format";
+import { daysLeft, dominantTest, monthName, monthOf, monthTotals, previousMonth, testStatus } from "@/lib/month";
 
 export default function ThisMonthPage() {
-  const [entries, setEntries] = useState<Entry[] | null>(null);
+  const entries = useEntries();
+  const today = useToday();
+  const [view, setView] = useState<"current" | "previous">("current");
 
-  useEffect(() => {
-    setEntries(loadEntries());
-  }, []);
+  // Wait for the device's own date and saved entries before rendering numbers.
+  if (!entries || !today) return <div className="h-96" aria-busy="true" />;
 
-  const hours = (entries ?? []).reduce((sum, e) => sum + e.activeHours, 0);
-  const net = (entries ?? []).reduce((sum, e) => sum + Math.max(0, e.earnings - e.expenses), 0);
+  const current = monthOf(today);
+  const month = view === "current" ? current : previousMonth(current);
+  const totals = monthTotals(entries, month);
+  const dominant = dominantTest(totals);
+  const main = testStatus(dominant, totals);
+  const other = testStatus(dominant === "hours" ? "income" : "hours", totals);
+  const left = daysLeft(month, today);
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold tracking-tight">This month</h1>
+    <div className="space-y-6">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-balance">{monthName(month, true)}</h1>
+          <p className="mt-0.5 text-sm text-muted" data-testid="days-left">
+            {left === "ended"
+              ? "This month has ended"
+              : left === 0
+                ? `Last day of ${monthName(month)}`
+                : `${plural(left, "day", "days")} left in ${monthName(month)}`}
+          </p>
+        </div>
+        <div className="flex shrink-0 rounded-lg border border-line bg-surface p-0.5 text-sm" role="group" aria-label="Month">
+          {(["current", "previous"] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              aria-pressed={view === v}
+              onClick={() => setView(v)}
+              className={`h-8 rounded-md px-3 font-medium transition-colors ${
+                view === v ? "bg-ink text-white" : "text-muted hover:text-ink"
+              }`}
+            >
+              {monthName(v === "current" ? current : previousMonth(current)).slice(0, 3)}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <dl className="tabular mt-4 grid grid-cols-2 gap-3">
-        <div className="rounded-xl border border-line bg-surface p-4">
-          <dt className="text-sm text-muted">Active hours</dt>
-          <dd className="mt-1 text-2xl font-semibold" data-testid="total-hours">{hours.toFixed(1)}</dd>
-        </div>
-        <div className="rounded-xl border border-line bg-surface p-4">
-          <dt className="text-sm text-muted">Earnings after expenses</dt>
-          <dd className="mt-1 text-2xl font-semibold" data-testid="total-net">${net.toFixed(2)}</dd>
-        </div>
-      </dl>
+      <DominantProgress status={main} note={main.kind === "income" ? HOUSEHOLD_NOTE : undefined} />
 
       <Link
         href="/add"
-        className="mt-5 flex h-14 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-[16px] font-semibold text-white hover:bg-accent-strong"
+        className="flex h-12 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-[16px] font-semibold text-white transition-colors hover:bg-accent-strong active:translate-y-px"
       >
         <Plus className="size-5" strokeWidth={1.75} aria-hidden />
         Add earnings
       </Link>
 
-      <h2 className="mt-8 text-base font-semibold">Entries</h2>
-      {entries && entries.length === 0 && <p className="mt-2 text-sm text-muted">No earnings added yet.</p>}
-      {entries && entries.length > 0 && (
-      <ul className="mt-2 divide-y divide-line rounded-xl border border-line bg-surface">
-        {(entries ?? []).map((e) => (
-          <li key={e.id} className="tabular flex items-center justify-between gap-3 p-4">
-            <div>
-              <p className="font-medium">{e.platform}</p>
-              <p className="text-sm text-muted">{rangeLabel(e.weekStart, e.weekEnd)}</p>
-            </div>
-            <div className="text-right text-sm">
-              <p className="font-medium">{e.activeHours} h</p>
-              <p className="text-muted">${(e.earnings - e.expenses).toFixed(2)}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-      )}
+      <SecondaryTest status={other} note={other.kind === "income" ? HOUSEHOLD_NOTE : undefined} />
+
+      <section aria-labelledby="entries-heading">
+        <h2 id="entries-heading" className="text-base font-semibold">
+          Entries
+        </h2>
+        {totals.entries.length === 0 ? (
+          <p className="mt-2 text-sm text-muted">
+            No earnings for {monthName(month)} yet. Add a weekly earnings screenshot or enter a week by hand.
+          </p>
+        ) : (
+          <div className="mt-2">
+            <EntriesList
+              entries={totals.entries}
+              onRemove={removeEntry}
+            />
+          </div>
+        )}
+      </section>
+
+      <HonestyNote />
     </div>
   );
 }

@@ -59,7 +59,7 @@ export function UploadPanel({ onRead, onError }: Props) {
       <div className="rounded-xl border border-line bg-surface p-5" role="status" aria-live="polite">
         <div className="flex items-center gap-3">
           <LoaderCircle className="size-5 animate-spin text-accent" strokeWidth={1.75} aria-hidden />
-          <p className="font-medium">Reading your screenshot</p>
+          <p className="font-medium">Reading your screenshot…</p>
         </div>
         <p className="mt-2 text-sm text-muted">This usually takes a few seconds.</p>
         <button

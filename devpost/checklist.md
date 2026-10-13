@@ -9,7 +9,7 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
 
 ## Slices
 
-- [ ] **1. A screenshot goes in, editable entries come out and are saved**
+- [x] **1. A screenshot goes in, editable entries come out and are saved**
   Becomes usable: On a phone sized screen, the person uploads a weekly earnings screenshot, sees a reading state, gets a prefilled review card (platform, dates, active hours, earnings, optional expenses), taps Add to month, and sees the entry listed on This Month with plain running totals. Entries survive a reload.
   Why now: This is the kernel and the biggest risk (Claude vision returning the fields the spec assumes, through a Vercel style route). It also carries all bootstrapping and the learner's vision investigation, so bad news arrives first.
   PRD ref: `prd.md > The Core Journey` (steps 1 to 5), `prd.md > Add earnings from a screenshot`, `prd.md > Privacy`
@@ -51,7 +51,7 @@ Build mode: fast (learner's stated preference in `learner-profile.md`)
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 1: the learner uploads a sample screenshot on a phone sized view and reacts to the reading and review step, while there is still room to change extraction or review behavior.
+- [x] Early usable behavior explored — after slice 1: the learner uploads a sample screenshot on a phone sized view and reacts to the reading and review step, while there is still room to change extraction or review behavior. Learner tried it: "ça marche", no changes requested.
 - [ ] Final kick-the-tires exploration and feedback completed
 
 ## Final Review

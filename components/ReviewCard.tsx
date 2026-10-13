@@ -96,7 +96,7 @@ export function ReviewCard({ initial, title, submitLabel, note, onSubmit, onCanc
         if (valid) onSubmit(draft);
       }}
     >
-      <h2 className="text-base font-semibold">{title}</h2>
+      <h2 className="text-base font-semibold break-words text-balance">{title}</h2>
       {note ? <div className="mt-1 text-sm text-muted">{note}</div> : null}
 
       <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-4">
@@ -104,16 +104,16 @@ export function ReviewCard({ initial, title, submitLabel, note, onSubmit, onCanc
           <input value={draft.platform} onChange={set("platform")} autoComplete="off" name="platform" />
         </Field>
         <Field label="First day" error={issues.weekStart}>
-          <input type="date" value={draft.weekStart} onChange={set("weekStart")} name="weekStart" />
+          <input type="date" value={draft.weekStart} onChange={set("weekStart")} name="weekStart" autoComplete="off" />
         </Field>
         <Field label="Last day" error={issues.weekEnd}>
-          <input type="date" value={draft.weekEnd} onChange={set("weekEnd")} name="weekEnd" />
+          <input type="date" value={draft.weekEnd} onChange={set("weekEnd")} name="weekEnd" autoComplete="off" />
         </Field>
         <Field label="Active hours" error={issues.activeHours}>
-          <input inputMode="decimal" value={draft.activeHours} onChange={set("activeHours")} name="activeHours" />
+          <input inputMode="decimal" value={draft.activeHours} onChange={set("activeHours")} name="activeHours" autoComplete="off" />
         </Field>
         <Field label="Earnings ($)" error={issues.earnings}>
-          <input inputMode="decimal" value={draft.earnings} onChange={set("earnings")} name="earnings" />
+          <input inputMode="decimal" value={draft.earnings} onChange={set("earnings")} name="earnings" autoComplete="off" />
         </Field>
         <Field
           label="Business expenses ($)"
@@ -121,7 +121,7 @@ export function ReviewCard({ initial, title, submitLabel, note, onSubmit, onCanc
           error={issues.expenses}
           className="col-span-2"
         >
-          <input inputMode="decimal" value={draft.expenses} onChange={set("expenses")} name="expenses" />
+          <input inputMode="decimal" value={draft.expenses} onChange={set("expenses")} name="expenses" autoComplete="off" />
         </Field>
       </div>
 
